@@ -1,0 +1,25 @@
+version: '3.6'
+services:
+  db:
+    image: mysql:latest
+    restart: always
+    environment:
+      MYSQL_DATABASE: 'ranchware'
+
+      MYSQL_USER: 'admin' # TODO: Don't use in production 
+
+      MYSQL_PASSWORD: 'root' # TODO: Don't use in production 
+
+      MYSQL_ROOT_PASSWORD: 'root' # TODO: Don't use in production 
+    ports:
+ 
+      - '3306:3306'
+    expose:
+  
+      - '3306'
+      
+    volumes:
+      - my-db:/var/lib/mysql
+      
+volumes:
+  my-db:
