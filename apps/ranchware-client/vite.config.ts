@@ -16,7 +16,7 @@ export default defineConfig({
   server: {
     proxy: {
       '/api': {
-        target: 'http://localhost3000', // Local Nest-App
+        target: 'http://localhost3200', // Local Nest-App
         changeOrigin: true
       },
     },
