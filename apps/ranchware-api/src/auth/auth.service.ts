@@ -14,9 +14,7 @@ import { JwtService } from '@nestjs/jwt';
 
 @Injectable()
 export class AuthService {
-  constructor(private prisma: PrismaService) {}
-  private configService: ConfigService;
-  private jwt: JwtService;
+  constructor(private prisma: PrismaService, private configService: ConfigService, private jwt: JwtService) {}
 
   async signUp(dto: SignUpDto) {
     const hashPassword = await argon2.hash(dto.password);
@@ -31,7 +29,7 @@ export class AuthService {
       });
 
       delete user.hash;
-      return this.signToken(user.id, user.firstName, user.lastName, user.email);
+      return this.signToken(user.id, user.email);
     } catch (e) {
       if (e.code === '23505') {
         throw new ConflictException('Credentials are taken.');
@@ -53,24 +51,21 @@ export class AuthService {
     if (!isPasswordMatches)
       throw new BadRequestException("Password's doesnt matches.");
 
-      return this.signToken(user.id, user.firstName, user.lastName, user.email);      
+      return this.signToken(user.id, user.email);      
   }
 
   async signToken(
     id: number,
-    lastName: string,
-    firstName: string,
     email: string,
   ): Promise<{ access_token: string }> {
-    const secret = await this.configService.get('JWT_SECRET');
+    const secret = await this.configService.get<string>('JWT_SECRET');
+
 
     const payload = {
       sub: `${id}`,
-      firstName,
-      lastName,
       email,
     };
-    
+
     const token = await this.jwt.sign(payload, {
       secret,
       expiresIn: '45m',
