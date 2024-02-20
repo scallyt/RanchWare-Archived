@@ -1,16 +1,22 @@
 import { SignInDto } from './dto/signIn.dto';
 import { SignUpDto } from './dto/signUp.dto';
 import {
+  BadRequestException,
   ConflictException,
   Injectable,
   InternalServerErrorException,
+  NotFoundException,
 } from '@nestjs/common';
-import { PrismaClient } from '@prisma/client';
 import * as argon2 from 'argon2';
+import { PrismaService } from 'src/prisma/prisma.service';
+import { ConfigService } from '@nestjs/config';
+import { JwtService } from '@nestjs/jwt';
 
 @Injectable()
 export class AuthService {
-  prisma = new PrismaClient();
+  constructor(private prisma: PrismaService) {}
+  private configService: ConfigService;
+  private jwt: JwtService;
 
   async signUp(dto: SignUpDto) {
     const hashPassword = await argon2.hash(dto.password);
@@ -24,12 +30,8 @@ export class AuthService {
         },
       });
 
-      return {
-        id: user.id,
-        email: user.email,
-        firstName: user.firstName,
-        lastName: user.lastName,
-      };
+      delete user.hash;
+      return this.signToken(user.id, user.firstName, user.lastName, user.email);
     } catch (e) {
       if (e.code === '23505') {
         throw new ConflictException('Credentials are taken.');
@@ -39,5 +41,42 @@ export class AuthService {
     }
   }
 
-  signIn(dto: SignInDto) {}
+  async signIn(dto: SignInDto) {
+    const user = await this.prisma.user.findUnique({
+      where: { email: dto.email },
+    });
+
+    if (!user) throw new NotFoundException("User doesn't exists.");
+
+    const isPasswordMatches = await argon2.verify(user.hash, dto.password);
+
+    if (!isPasswordMatches)
+      throw new BadRequestException("Password's doesnt matches.");
+
+      return this.signToken(user.id, user.firstName, user.lastName, user.email);      
+  }
+
+  async signToken(
+    id: number,
+    lastName: string,
+    firstName: string,
+    email: string,
+  ): Promise<{ access_token: string }> {
+    const secret = await this.configService.get('JWT_SECRET');
+
+    const payload = {
+      sub: `${id}`,
+      firstName,
+      lastName,
+      email,
+    };
+    
+    const token = await this.jwt.sign(payload, {
+      secret,
+      expiresIn: '45m',
+    });
+    return {
+      access_token: token,
+    };
+  }
 }
