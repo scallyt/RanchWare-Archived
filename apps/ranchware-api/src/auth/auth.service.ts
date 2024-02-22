@@ -62,7 +62,7 @@ export class AuthService {
 
 
     const payload = {
-      sub: `${id}`,
+      sub: id,
       email,
     };
 
