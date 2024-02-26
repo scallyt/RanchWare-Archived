@@ -1,20 +1,22 @@
 <script lang="ts">
 	import axios from 'axios';
 
+	
+
+	let user = {
+		email: '',
+		password: '' 
+	}
+
 	function submitForm(event: any) {
 		event.preventDefault();
 
-		const formData = new FormData(event.target);
-
-		const email = formData.get('email');
-        const pass = formData.get('pass');
-
-
 		axios.post('http://localhost:3100/api/auth/signin', {
-            email: email,
-            password: pass,
+            email: user.email,
+            password: user.password,
 		}).then(function (response) {
             console.log(response)
+			location.href = '/';
         }).catch( function (error) {
             console.log(error);
         })
@@ -28,11 +30,11 @@
 		<form on:submit|preventDefault={submitForm} action="/login">
 			<div>
 				<label for="email">email</label>
-				<input type="email" name="email" />
+				<input bind:value={user.email} type="email" name="email" />
 			</div>
 			<div>
 				<label for="password">password</label>
-				<input min="8" type="password" name="pass" />
+				<input bind:value={user.password} min="8" type="password" name="pass" />
 			</div>
 			<button type="submit">Login</button>
 		</form>
