@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { goto } from '$app/navigation';
 	import axios from 'axios';
 
 	
@@ -8,7 +9,7 @@
 		password: '' 
 	}
 
-	function submitForm(event: any) {
+	async function submitForm(event: any) {
 		event.preventDefault();
 
 		axios.post('http://localhost:3100/api/auth/signin', {
@@ -16,7 +17,7 @@
             password: user.password,
 		}).then(function (response) {
             console.log(response)
-			location.href = '/';
+			goto('/')
         }).catch( function (error) {
             console.log(error);
         })
