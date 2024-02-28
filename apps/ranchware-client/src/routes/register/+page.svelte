@@ -1,6 +1,7 @@
 <script lang="ts">
 	import axios from 'axios';
 
+	let isFocused: boolean = true;
 	let user = {
 		firstName: '',
 		lastName: '',
@@ -55,5 +56,5 @@
 </main>
 
 <style lang="scss">
-	@import '../../styles/register.module.scss';
+	@import '../../styles/register.scss';
 </style>

@@ -14,11 +14,13 @@ export default defineConfig({
 		include: ['api-contract/**/*']
 	  },
 	  server: {
+		port: 4200,
 		proxy: {
 		  '/api': {
-			target: 'http://localhost3200', // Local Nest-App
+			target: 'http://localhost3100', // Local Nest-App
 			changeOrigin: true
 		  },
 		},
 	  },
+
 });

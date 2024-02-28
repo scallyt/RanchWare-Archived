@@ -44,5 +44,5 @@
 </main>
 
 <style lang="scss">
-	@import '../../styles/register.module.scss';
+	@import '../../styles/register.scss';
 </style>

@@ -24,6 +24,8 @@
 		"eslint-plugin-svelte": "^2.35.1",
 		"prettier": "^3.1.1",
 		"prettier-plugin-svelte": "^3.1.2",
+		"prettier-plugin-tailwindcss": "^0.5.9",
+		"sass": "^1.71.1",
 		"svelte": "^4.2.7",
 		"svelte-check": "^3.6.0",
 		"tslib": "^2.4.1",
@@ -33,7 +35,6 @@
 	"type": "module",
 	"dependencies": {
 		"axios": "^1.6.7",
-		"commonjs": "^0.0.1",
-		"svelte-routing": "^2.12.0"
+		"commonjs": "^0.0.1"
 	}
 }
