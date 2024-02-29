@@ -27,22 +27,26 @@
 <h1>Login</h1>
 
 <main>
-	<div>
-		<form on:submit|preventDefault={submitForm} action="/login">
-			<div>
-				<label for="email">email</label>
-				<input bind:value={user.email} type="email" name="email" />
-			</div>
-			<div>
-				<label for="password">password</label>
-				<input bind:value={user.password} min="8" type="password" name="pass" />
-			</div>
-			<button type="submit">Login</button>
-		</form>
+	<div class="div">
+		<div class="brd">
+			<form on:submit|preventDefault={submitForm} action="/login">
+				<div class="l-i">
+					<label class="lable" for="email">email</label>
+					<input bind:value={user.email} type="email" name="email" />
+				</div>
+				<div class="l-i">
+					<label class="lable" for="password">password</label>
+					<input bind:value={user.password} min="8" type="password" name="pass" />
+				</div>
+				<div class="center">
+					<button class="btn btn-primary" on:click={() => {goto('/register')}}>Register</button>
+					<button on:click={submitForm} class="btn btn-primary" type="submit">Login</button>
+				</div>
+			</form>
+		</div>
 	</div>
-        <a href="/register">Register</a>
 </main>
 
 <style lang="scss">
-	@import '../../styles/register.scss';
+	@import '../../styles/register.login.scss';
 </style>

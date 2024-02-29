@@ -2,7 +2,8 @@
 
 </script>
 
-<header>
+<body>
+  <header>
     <nav class="navbar navbar-expand-lg bg-body-tertiary">
         <div class="container-fluid">
           <a class="navbar-brand" href="#">RanchWare</a>
@@ -45,6 +46,7 @@
 <footer>
 
 </footer>
+</body>
 
 <style lang="scss">
     @import '../styles/main.scss';

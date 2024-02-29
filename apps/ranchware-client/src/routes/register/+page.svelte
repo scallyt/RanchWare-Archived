@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { goto } from '$app/navigation';
 	import axios from 'axios';
 
 	let isFocused: boolean = true;
@@ -31,30 +32,34 @@
 <h1>Register</h1>
 
 <main>
-	<div>
-		<form on:submit|preventDefault={submitForm} action="/login">
-			<div>
-				<label for="firstName">firstName</label>
-				<input bind:value={user.firstName} maxlength="16" type="text" name="firstName" />
-			</div>
-			<div>
-				<label for="lastName">lastName</label>
-				<input bind:value={user.lastName} maxlength="16" type="text" name="lastName" />
-			</div>
-			<div>
-				<label for="email">email</label>
-				<input bind:value={user.email} type="email" name="email" />
-			</div>
-			<div>
-				<label for="password">password</label>
-				<input bind:value={user.password} min="8" type="password" name="pass" />
-			</div>
-			<button type="submit">Register</button>
-		</form>
+	<div class="div">
+		<div class="brd">
+			<form on:submit|preventDefault={submitForm} action="/login">
+				<div class="l-i">
+					<label class="lable" for="firstName">firstName</label>
+					<input bind:value={user.firstName} maxlength="16" type="text" name="firstName" />
+				</div>
+				<div class="l-i">
+					<label class="lable" for="lastName">lastName</label>
+					<input bind:value={user.lastName} maxlength="16" type="text" name="lastName" />
+				</div>
+				<div class="l-i">
+					<label class="lable" for="email">email</label>
+					<input bind:value={user.email} type="email" name="email" />
+				</div>
+				<div class="l-i">
+					<label class="lable" for="password">password</label>
+					<input bind:value={user.password} min="8" type="password" name="pass" />
+				</div>
+				<div class="center">
+					<button on:click={submitForm} class="btn btn-primary" type="submit">Register</button>
+					<button class="btn btn-primary" on:click={() => {goto('/login')}}>Login</button>
+				</div>
+			</form>
+		</div>
 	</div>
-	<a href="/login">Login</a>
 </main>
 
 <style lang="scss">
-	@import '../../styles/register.scss';
+	@import '../../styles/register.login.scss';
 </style>

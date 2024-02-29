@@ -1,0 +1,49 @@
+@import './variables';
+
+:root {
+    font-family: $font;
+}
+
+.div {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-top: 10rem;
+
+    .brd {
+    padding: 2rem;
+    
+    border-style: solid;
+    border-width: 1px;
+    border-radius: 0.9rem;
+    background-color: rgba(195, 191, 191, 0.649);
+    }
+
+    .btn {
+        margin: 0.9rem;
+    }
+
+}
+
+h1 {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.center {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.l-i {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    margin-top: 0.1rem;
+    margin-right: 0.2rem;
+}
+
+.lable{
+    margin-right: 0.5rem;
+}

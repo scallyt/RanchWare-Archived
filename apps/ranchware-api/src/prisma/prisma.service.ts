@@ -8,7 +8,7 @@ export class PrismaService extends PrismaClient {
         super({
             datasources: {
                 db: {
-                    url: configService.get('DATABASE_URL'),
+                    url: "mysql://admin:root@localhost:3306/ranchware",
                 },
             },
         });
