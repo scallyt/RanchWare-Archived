@@ -20,8 +20,9 @@
 				email: user.email,
 				password: user.password
 			})
-			.then(function (response) {
+			.then(async function (response) {
 				console.log(response);
+				 await goto('/login')
 			})
 			.catch(function (error) {
 				console.log(error);
@@ -53,7 +54,7 @@
 				</div>
 				<div class="center">
 					<button on:click={submitForm} class="btn btn-primary" type="submit">Register</button>
-					<button class="btn btn-primary" on:click={() => {goto('/login')}}>Login</button>
+					<button class="btn btn-primary" on:click={async () => {await goto('/login')}}>Login</button>
 				</div>
 			</form>
 		</div>

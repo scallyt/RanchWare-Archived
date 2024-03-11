@@ -1,24 +1,53 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
 generator client {
   provider = "prisma-client-js"
 }
 
 datasource db {
   provider = "mysql"
-  url      = env("DATABASE_URL")
+  url      = "mysql://admin:root@localhost:3306/ranchware"
 }
 
 model User {
-  id Int @id @unique @default(autoincrement())
-  email String @unique
-  hash String
-
-  firstName String
-  lastName String
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  @@map("users")
+  id              Int         @id @unique @default(autoincrement())
+  email           String      @unique
+  hash            String
+  firstName       String
+  lastName        String
+  createdAt       DateTime    @default(now())
+  updatedAt       DateTime    @updatedAt
+     
+  ownedWorkspaces Workspace[]
+  employments     WorkspacesOnUsers[]
 }
+
+model Workspace {
+  id          Int        @id @unique @default(autoincrement())
+  owner       User       @relation(fields: [ownerId], references: [id])
+  ownerId     Int
+  code        String     @unique
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+  employees   WorkspacesOnUsers[] 
+}
+
+model WorkspacesOnUsers {
+  user         User     @relation(fields: [userId], references: [id])
+  userId       Int
+  workspace    Workspace  @relation(fields: [workspaceId], references: [id])
+  workspaceId  Int
+
+  @@id([userId, workspaceId])
+}
+
+model Animal {
+  id             Int        @id @unique @default(autoincrement())
+  species        String
+  age            Int
+  pregnant       Boolean
+  pregnancyStart DateTime?
+  pregnancyEnd   DateTime?
+  info           String?
+  createdAt      DateTime   @default(now())
+  updatedAt      DateTime   @updatedAt
+}
+

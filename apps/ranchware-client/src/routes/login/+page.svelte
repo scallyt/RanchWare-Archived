@@ -15,9 +15,9 @@
 		axios.post('http://localhost:3100/api/auth/signin', {
             email: user.email,
             password: user.password,
-		}).then(function (response) {
+		}).then(async function (response) {
             console.log(response)
-			goto('/')
+			await goto('/')
         }).catch( function (error) {
             console.log(error);
         })
@@ -39,7 +39,7 @@
 					<input bind:value={user.password} min="8" type="password" name="pass" />
 				</div>
 				<div class="center">
-					<button class="btn btn-primary" on:click={() => {goto('/register')}}>Register</button>
+					<button class="btn btn-primary" on:click={ async () => { await goto('/register')}}>Register</button>
 					<button on:click={submitForm} class="btn btn-primary" type="submit">Login</button>
 				</div>
 			</form>
