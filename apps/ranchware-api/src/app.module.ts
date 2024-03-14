@@ -8,9 +8,9 @@ import { UserModule } from './user/user.module';
 import { WorkspacesModule } from './workspaces/workspaces.module';
 
 @Module({
-  imports: [AuthModule, PrismaModule, UserModule, ConfigModule.forRoot({
+  imports: [AuthModule, PrismaModule, UserModule, WorkspacesModule, ConfigModule.forRoot({
     isGlobal: true,
-  }), WorkspacesModule,],
+  })],
   controllers: [AppController],
   providers: [AppService],
 })

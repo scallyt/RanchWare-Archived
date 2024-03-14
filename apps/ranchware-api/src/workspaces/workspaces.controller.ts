@@ -1,33 +1,31 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Post, Body, Param, NotFoundException, UseGuards, Headers, Header   } from '@nestjs/common';
 import { WorkspacesService } from './workspaces.service';
 import { CreateWorkspaceDto } from './dto/create-workspace.dto';
+import { Workspace } from '@prisma/client';
+import { AuthGuard } from '@nestjs/passport';
 
 @Controller('workspaces')
 export class WorkspacesController {
   constructor(private readonly workspacesService: WorkspacesService) {}
 
-  @Post()
-  create(@Body() createWorkspaceDto: CreateWorkspaceDto) {
-    return this.workspacesService.create(createWorkspaceDto);
+  @UseGuards(AuthGuard('jwt'))
+  @Post("/new")
+  async create(@Headers() headers: any, @Body() dto: CreateWorkspaceDto ): Promise<Workspace> {
+    return this.workspacesService.createWorkspace(headers);
   }
 
-  @Get()
-  findAll() {
-    return this.workspacesService.findAll();
-  }
+  @Post(':workspaceId/addEmployee/:userId')
+  async addEmployee(@Param('workspaceId') workspaceId: number, @Param('userId') userId: number): Promise<Workspace> {
+    const workspaceExists = await this.workspacesService.workspaceExists(workspaceId);
+    if (!workspaceExists) {
+      throw new NotFoundException('Workspace not found');
+    }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.workspacesService.findOne(+id);
-  }
-
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateWorkspaceDto: UpdateWorkspaceDto) {
-    return this.workspacesService.update(+id, updateWorkspaceDto);
-  }
-
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.workspacesService.remove(+id);
+    // Hívjuk meg a WorkspaceService addEmployee metódusát
+    return this.workspacesService.addEmployee(workspaceId, userId);
   }
 }
+function HttpHeader(arg0: string): (target: WorkspacesController, propertyKey: "create", parameterIndex: 0) => void {
+  throw new Error('Function not implemented.');
+}
+

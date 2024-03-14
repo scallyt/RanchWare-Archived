@@ -29,7 +29,3 @@ export class JwtStrategy extends PassportStrategy(Strategy, 'jwt') {
        }
     }
   }
-
-function InjectRepository(User: any): (target: typeof JwtStrategy, propertyKey: undefined, parameterIndex: 0) => void {
-    throw new Error('Function not implemented.');
-}
