@@ -55,7 +55,7 @@ export class AuthService {
   }
 
   async signToken(
-    id: number,
+    id: string,
     email: string,
   ): Promise<{ access_token: string }> {
     const secret = await this.configService.get<string>('JWT_SECRET');
